@@ -1,0 +1,53 @@
+.section {
+	margin: 50px 0;
+}
+.aside-nav {
+	margin: 50px 0;
+	position: fixed;
+
+	.nav-list {
+
+		li {
+
+			a {
+				padding: 5px 0;
+				display: inline-block;
+				position: relative;
+				text-transform: capitalize;
+
+				&:after {
+					position: absolute;
+					content: '';
+					top: 100%; left: 0;
+					height: 2px; width: 100%;
+					background-color: $primary;
+					transform: scale(.3);
+					transform-origin: center;
+					transition: .3s;
+					opacity: 0;
+				}
+				&:hover {
+
+					&:after {
+						transform: scale(1);
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+}
+.section-title {
+	color: $primary;
+	font-size: 24px;
+	text-transform: capitalize;
+	margin: 0;
+}
+.title {
+	background-color: $primary;
+	color: #fff;
+	font-size: 32px;
+	text-align: center;
+	padding: 50px 0;
+	margin: 0;
+}

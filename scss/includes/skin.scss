@@ -1,0 +1,81 @@
+html {
+	-webkit-text-size-adjust: none;
+
+	&.no-scroll {
+		overflow: hidden;
+	}
+}
+body {
+	font-family: $body-font;
+	font-size: $body-font-size;
+	color: $text-color;
+
+	&.no-scroll {
+		overflow: hidden;
+	}
+}
+button {
+	outline: none;
+	cursor: pointer;
+	transition: .3s;
+}
+input {
+	outline: none;
+}
+ul,
+ol {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+a {
+	color: inherit;
+	transition: .3s;
+	text-decoration: none;
+
+	&:hover,
+	&:active,
+	&:focus {
+		text-decoration: none;
+		color: inherit;
+		outline: none;
+	}
+}
+figure {
+	margin: 0;
+
+	a {
+		display: block;
+	}
+}
+label {
+	cursor: pointer;
+	user-select: none;
+}
+address {
+	font-style: normal;
+}
+.container {
+	width: 100%;
+	max-width: $container-width;
+	margin: 0 auto;
+}
+.inline-wrap {
+	font-size: 0;
+
+	/*inline-block grid*/
+
+	@for $i from 1 through $column {
+
+		.col-#{$i} {
+			width: ($i/$column) * 100%;
+			font-size: 16px;
+			display: inline-block;
+			vertical-align: top;
+		}
+	}
+}
+
+
+
+

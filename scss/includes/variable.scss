@@ -1,0 +1,17 @@
+/*fonts*/
+$reg: "OpenSansRegular", Arial, sans-serif;
+
+/*colors*/
+$primary: #6f5499;
+$lighten: lighten($primary, 15%);
+
+$gray: #5e5e5e;
+$danger: #F44336;
+
+/*body*/
+$body-font: $reg;
+$text-color: $gray;
+$body-font-size: 14px;
+$container-width: 1200px;
+
+$column: 12;
