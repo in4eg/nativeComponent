@@ -1,4 +1,6 @@
-var $;
+var $, choosen;
+
+choosen = document.querySelectorAll('body');
 
 $ = function(selector) {
   var choosenElements, newSelector, result;
@@ -26,10 +28,12 @@ $ = function(selector) {
     return [];
   }
   if (choosenElements.length && choosenElements.length > 0) {
-    return []["for"].apply(choosenElements);
+    console.log([].slice.call(choosenElements));
+    return [].slice.call(choosenElements);
   } else {
+    console.log([choosenElements]);
     return [choosenElements];
   }
 };
 
-console.log($('body'));
+$(choosen);
