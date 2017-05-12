@@ -1,7 +1,25 @@
-var $;
+var eq;
+
+eq = function(index) {};
+;var methods;
+
+methods = {};
+
+methods.eq = function(index) {
+  return $(this[index]);
+};
+
+methods.first = function() {
+  return $(this[0]);
+};
+
+methods.last = function() {
+  return $(this[$(this).length - 1]);
+};
+;var $;
 
 $ = function(selector, context) {
-  var choosenElements, result;
+  var choosenElements, method, res, result;
   if (typeof context !== "undefined") {
     return [].slice.call(context.querySelectorAll(selector));
   } else {
@@ -30,11 +48,15 @@ $ = function(selector, context) {
     return [];
   }
   if (choosenElements.length && choosenElements.length > 0) {
-    return [].slice.call(choosenElements);
+    res = [].slice.call(choosenElements);
   } else {
-    return [choosenElements];
+    res = [choosenElements];
   }
+  for (method in methods) {
+    res[method] = methods[method].bind(res);
+  }
+  return res;
 };
 
-$('div', $('#dropdown')[0]);
+console.log($('.section').last());
 ;

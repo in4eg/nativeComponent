@@ -1,7 +1,7 @@
 var $;
 
 $ = function(selector, context) {
-  var choosenElements, result;
+  var choosenElements, method, res, result;
   if (typeof context !== "undefined") {
     return [].slice.call(context.querySelectorAll(selector));
   } else {
@@ -30,10 +30,14 @@ $ = function(selector, context) {
     return [];
   }
   if (choosenElements.length && choosenElements.length > 0) {
-    return [].slice.call(choosenElements);
+    res = [].slice.call(choosenElements);
   } else {
-    return [choosenElements];
+    res = [choosenElements];
   }
+  for (method in methods) {
+    res[method] = methods[method].bind(res);
+  }
+  return res;
 };
 
-$('div', $('#dropdown')[0]);
+console.log($('.section').last());

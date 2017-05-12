@@ -1,6 +1,7 @@
 # choosen = document.querySelectorAll('section')
 # console.log choosen
 
+
 $ = (selector, context)->
 
 	if typeof context isnt "undefined"
@@ -35,12 +36,16 @@ $ = (selector, context)->
 
 	if choosenElements.length and choosenElements.length > 0
 		# console.log [].slice.call(choosenElements)
-		return [].slice.call(choosenElements)
+		res = [].slice.call(choosenElements)
 	else
 		# console.log [choosenElements]
-		return [choosenElements]
+		res = [choosenElements]
 
+	for method of methods
+		res[method] = methods[method].bind(res)
+		
+	return res
 
-$('div', $('#dropdown')[0])
+console.log $('.section').last()
 
 
