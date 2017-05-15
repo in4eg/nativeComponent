@@ -5,7 +5,6 @@
 $ = (selector, context)->
 
 	if typeof context isnt "undefined"
-		# console.log [].slice.call(context.querySelectorAll(selector))
 		return [].slice.call(context.querySelectorAll(selector))
 	else
 		context = document
@@ -35,10 +34,8 @@ $ = (selector, context)->
 		return []
 
 	if choosenElements.length and choosenElements.length > 0
-		# console.log [].slice.call(choosenElements)
 		res = [].slice.call(choosenElements)
 	else
-		# console.log [choosenElements]
 		res = [choosenElements]
 
 	for method of methods
@@ -46,6 +43,17 @@ $ = (selector, context)->
 		
 	return res
 
-console.log $('.section').last()
+
+$.utils =
+	traverse: (selection, callback)->
+		for node, i in selection
+			callback node, i
+		selection
+
+
+console.log $('section')
+# console.dir $
+# console.dir methods
+
 
 

@@ -40,4 +40,15 @@ $ = function(selector, context) {
   return res;
 };
 
-console.log($('.section').last());
+$.utils = {
+  traverse: function(selection, callback) {
+    var i, j, len, node;
+    for (i = j = 0, len = selection.length; j < len; i = ++j) {
+      node = selection[i];
+      callback(node, i);
+    }
+    return selection;
+  }
+};
+
+console.log($('section'));
