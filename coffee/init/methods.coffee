@@ -92,6 +92,43 @@ methods.insertBefore = (elem)->
 
 	parentElement = elementBefore.parentNode
 	parentElement.insertBefore(newElement, elementBefore);
-
 	@
+
+methods.addClass = (className)->
+	$.utils.traverse @, (node)->
+		node.classList.add(className)
+	@
+
+methods.removeClass = (className)->
+	$.utils.traverse @, (node)->
+		node.classList.remove(className)
+	@
+
+methods.toggleClass = (className)->
+	$.utils.traverse @, (node)->
+		node.classList.toggle(className)
+	@
+
+methods.hasClass = (className)->
+	if @[0].classList.contains(className)
+		return on
+	else
+		return off
+
+methods.closest = (elem)->
+	if elem is "undefined"
+		return @
+	else
+		return @[0].closest(elem)
+
+methods.parent = ->
+	@[0].parentElement
+
+methods.next = ->
+	@[0].nextElementSibling
+
+
+
+
+
 

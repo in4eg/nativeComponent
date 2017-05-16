@@ -1,4 +1,4 @@
-var $;
+var $, elem, handler;
 
 $ = function(selector, context) {
   var choosenElements, method, res, result;
@@ -51,4 +51,10 @@ $.utils = {
   }
 };
 
-console.log($('section'));
+elem = document.getElementById('btn');
+
+handler = function() {
+  console.log('click');
+};
+
+elem.addEventListener("click", handler);

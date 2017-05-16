@@ -102,7 +102,52 @@ methods.insertBefore = function(elem) {
   parentElement.insertBefore(newElement, elementBefore);
   return this;
 };
-;var $;
+
+methods.addClass = function(className) {
+  $.utils.traverse(this, function(node) {
+    return node.classList.add(className);
+  });
+  return this;
+};
+
+methods.removeClass = function(className) {
+  $.utils.traverse(this, function(node) {
+    return node.classList.remove(className);
+  });
+  return this;
+};
+
+methods.toggleClass = function(className) {
+  $.utils.traverse(this, function(node) {
+    return node.classList.toggle(className);
+  });
+  return this;
+};
+
+methods.hasClass = function(className) {
+  if (this[0].classList.contains(className)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+methods.closest = function(elem) {
+  if (elem === "undefined") {
+    return this;
+  } else {
+    return this[0].closest(elem);
+  }
+};
+
+methods.parent = function() {
+  return this[0].parentElement;
+};
+
+methods.next = function() {
+  return this[0].nextElementSibling;
+};
+;var $, elem, handler;
 
 $ = function(selector, context) {
   var choosenElements, method, res, result;
@@ -155,5 +200,11 @@ $.utils = {
   }
 };
 
-console.log($('section'));
+elem = document.getElementById('btn');
+
+handler = function() {
+  console.log('click');
+};
+
+elem.addEventListener("click", handler);
 ;

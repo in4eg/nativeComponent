@@ -50,10 +50,14 @@ $.utils =
 			callback node, i
 		selection
 
-
-console.log $('section')
 # console.dir $
 # console.dir methods
+
+elem = document.getElementById('btn')
+handler = ->
+	console.log 'click'
+	return
+elem.addEventListener "click", handler
 
 
 
