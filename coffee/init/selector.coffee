@@ -53,11 +53,15 @@ $.utils =
 # console.dir $
 # console.dir methods
 
-elem = document.getElementById('btn')
-handler = ->
-	console.log 'click'
+handleFunc = ->
+	$('section').toggleClass('new-class')
 	return
-elem.addEventListener "click", handler
 
+
+$('#btn').on "click", handleFunc
+
+$('#btn2').on "click", ->
+	$('#btn').off "click", handleFunc
+	return
 
 

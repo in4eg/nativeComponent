@@ -127,6 +127,24 @@ methods.parent = ->
 methods.next = ->
 	@[0].nextElementSibling
 
+methods.on = (event, handler, useCapture) ->
+	# https://www.w3schools.com/jsref/dom_obj_event.asp
+	$.utils.traverse @, (node)->
+		node.addEventListener event, handler
+
+	if typeof useCapture is "boolean" and useCapture is on
+		useCapture = on
+	else useCapture = off
+	@
+methods.off = (event, handler, useCapture) ->
+	$.utils.traverse @, (node)->
+		node.removeEventListener event, handler
+
+	if typeof useCapture is "boolean" and useCapture is on
+		useCapture = on
+	else useCapture = off
+	@
+
 
 
 

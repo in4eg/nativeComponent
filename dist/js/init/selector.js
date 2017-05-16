@@ -1,4 +1,4 @@
-var $, elem, handler;
+var $, handleFunc;
 
 $ = function(selector, context) {
   var choosenElements, method, res, result;
@@ -51,10 +51,12 @@ $.utils = {
   }
 };
 
-elem = document.getElementById('btn');
-
-handler = function() {
-  console.log('click');
+handleFunc = function() {
+  $('section').toggleClass('new-class');
 };
 
-elem.addEventListener("click", handler);
+$('#btn').on("click", handleFunc);
+
+$('#btn2').on("click", function() {
+  $('#btn').off("click", handleFunc);
+});

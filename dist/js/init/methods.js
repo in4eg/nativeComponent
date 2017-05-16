@@ -147,3 +147,27 @@ methods.parent = function() {
 methods.next = function() {
   return this[0].nextElementSibling;
 };
+
+methods.on = function(event, handler, useCapture) {
+  $.utils.traverse(this, function(node) {
+    return node.addEventListener(event, handler);
+  });
+  if (typeof useCapture === "boolean" && useCapture === true) {
+    useCapture = true;
+  } else {
+    useCapture = false;
+  }
+  return this;
+};
+
+methods.off = function(event, handler, useCapture) {
+  $.utils.traverse(this, function(node) {
+    return node.removeEventListener(event, handler);
+  });
+  if (typeof useCapture === "boolean" && useCapture === true) {
+    useCapture = true;
+  } else {
+    useCapture = false;
+  }
+  return this;
+};

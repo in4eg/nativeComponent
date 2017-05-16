@@ -147,7 +147,31 @@ methods.parent = function() {
 methods.next = function() {
   return this[0].nextElementSibling;
 };
-;var $, elem, handler;
+
+methods.on = function(event, handler, useCapture) {
+  $.utils.traverse(this, function(node) {
+    return node.addEventListener(event, handler);
+  });
+  if (typeof useCapture === "boolean" && useCapture === true) {
+    useCapture = true;
+  } else {
+    useCapture = false;
+  }
+  return this;
+};
+
+methods.off = function(event, handler, useCapture) {
+  $.utils.traverse(this, function(node) {
+    return node.removeEventListener(event, handler);
+  });
+  if (typeof useCapture === "boolean" && useCapture === true) {
+    useCapture = true;
+  } else {
+    useCapture = false;
+  }
+  return this;
+};
+;var $, handleFunc;
 
 $ = function(selector, context) {
   var choosenElements, method, res, result;
@@ -200,11 +224,13 @@ $.utils = {
   }
 };
 
-elem = document.getElementById('btn');
-
-handler = function() {
-  console.log('click');
+handleFunc = function() {
+  $('section').toggleClass('new-class');
 };
 
-elem.addEventListener("click", handler);
+$('#btn').on("click", handleFunc);
+
+$('#btn2').on("click", function() {
+  $('#btn').off("click", handleFunc);
+});
 ;
