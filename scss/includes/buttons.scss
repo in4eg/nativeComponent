@@ -1,0 +1,22 @@
+.btn {
+	background-color: $primary;
+	border: 1px solid $primary;
+	color: #fff;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 20px;
+
+	&:hover {
+		background-color: $lighten;
+		border-color: $lighten;
+	}
+	&:active,
+	&:focus {
+		background-color: $darken;
+		border-color: $darken;
+	}
+	&.danger {
+		background-color: $danger;
+		border-color: $danger;
+	}
+}

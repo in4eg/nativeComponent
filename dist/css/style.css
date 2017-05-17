@@ -207,7 +207,7 @@ textarea {
   font: inherit; }
 
 html {
-  -webkit-text-size-adjust: none; }
+  /*text-size-adjust: none;*/ }
   html.no-scroll {
     overflow: hidden; }
 
@@ -329,6 +329,8 @@ address {
 
 .section {
   margin: 50px 0; }
+  .section.danger {
+    background-color: #F44336; }
 
 .aside-nav {
   margin: 50px 0;
@@ -345,7 +347,7 @@ address {
       left: 0;
       height: 2px;
       width: 100%;
-      background-color: #6f5499;
+      background-color: #0033CC;
       -webkit-transform: scale(0.3);
       -ms-transform: scale(0.3);
       transform: scale(0.3);
@@ -362,17 +364,34 @@ address {
       opacity: 1; }
 
 .section-title {
-  color: #6f5499;
+  color: #0033CC;
   font-size: 24px;
   text-transform: capitalize;
   margin: 0; }
 
 .title {
-  background-color: #6f5499;
+  background-color: #0033CC;
   color: #fff;
   font-size: 32px;
   text-align: center;
   padding: 50px 0;
   margin: 0; }
+
+.btn {
+  background-color: #0033CC;
+  border: 1px solid #0033CC;
+  color: #fff;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px; }
+  .btn:hover {
+    background-color: #1a53ff;
+    border-color: #1a53ff; }
+  .btn:active, .btn:focus {
+    background-color: #002080;
+    border-color: #002080; }
+  .btn.danger {
+    background-color: #F44336;
+    border-color: #F44336; }
 
 /*components*/

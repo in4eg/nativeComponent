@@ -52,11 +52,7 @@ $.utils = {
 };
 
 handleFunc = function() {
-  $('section').toggleClass('new-class');
+  $('#btn2').fadeOut();
 };
 
 $('#btn').on("click", handleFunc);
-
-$('#btn2').on("click", function() {
-  $('#btn').off("click", handleFunc);
-});

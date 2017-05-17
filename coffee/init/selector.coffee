@@ -43,7 +43,6 @@ $ = (selector, context)->
 		
 	return res
 
-
 $.utils =
 	traverse: (selection, callback)->
 		for node, i in selection
@@ -54,14 +53,7 @@ $.utils =
 # console.dir methods
 
 handleFunc = ->
-	$('section').toggleClass('new-class')
+	$('#btn2').fadeOut()
 	return
-
 
 $('#btn').on "click", handleFunc
-
-$('#btn2').on "click", ->
-	$('#btn').off "click", handleFunc
-	return
-
-

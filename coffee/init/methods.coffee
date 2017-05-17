@@ -127,6 +127,11 @@ methods.parent = ->
 methods.next = ->
 	@[0].nextElementSibling
 
+methods.html = (text) ->
+	$.utils.traverse @, (node)->
+		node.innerHTML text
+	@
+
 methods.on = (event, handler, useCapture) ->
 	# https://www.w3schools.com/jsref/dom_obj_event.asp
 	$.utils.traverse @, (node)->
@@ -143,10 +148,70 @@ methods.off = (event, handler, useCapture) ->
 	if typeof useCapture is "boolean" and useCapture is on
 		useCapture = on
 	else useCapture = off
+
 	@
 
+methods.fadeOut = (time, callback)->
+	# collection = @
+	if typeof time is "undefined"
+		time = 1000
+	
+	console.log time
+	frameTime = 1000 / 60
+	framesCount = time / frameTime
 
 
+	step = (percent) =>
+		# step = (percent) ->
+			# @ change into collection
+		$.utils.traverse @, (node)->
+			node.style.opacity = (1 - percent)
+			return
+		return
+
+	i = 0
+	interval = setInterval ->
+		percent = i * frameTime / time
+		
+		if i < framesCount
+			i++
+			step(percent)
+		else
+			clearInterval(interval)
+			percent = 1
+			step(percent)
+			return
+
+	if callback
+		callback @[0]
+	@
+methods.fadeIn = (time, callback)->
+	frameTime = 1000 / 60
+	framesCount = time / frameTime
+
+
+	step = (percent) =>
+		$.utils.traverse @, (node)->
+			node.style.opacity = percent
+			return
+		return
+
+	i = 0
+	interval = setInterval ->
+		percent = i * frameTime / time
+		
+		if i < framesCount
+			i++
+			step(percent)
+		else
+			clearInterval(interval)
+			percent = 1
+			step(percent)
+			return
+
+	if callback
+		callback @[0]
+	@
 
 
 

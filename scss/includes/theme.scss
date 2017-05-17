@@ -1,5 +1,9 @@
 .section {
 	margin: 50px 0;
+
+	&.danger {
+		background-color: $danger;
+	}
 }
 .aside-nav {
 	margin: 50px 0;

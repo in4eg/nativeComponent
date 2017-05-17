@@ -2,8 +2,10 @@
 $reg: "OpenSansRegular", Arial, sans-serif;
 
 /*colors*/
-$primary: #6f5499;
+$primary: #0033CC;
 $lighten: lighten($primary, 15%);
+$darken: darken($primary, 15%);
+
 
 $gray: #5e5e5e;
 $danger: #F44336;
