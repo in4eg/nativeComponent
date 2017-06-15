@@ -53,7 +53,15 @@ $.utils =
 # console.dir methods
 
 handleFunc = ->
-	$('#btn2').fadeOut()
+	$('#btn2')._animate({
+		opacity: 0
+		marginLeft: '100px'
+		paddingTop: '50px'
+	}, 2000, -> console.log('end'))
 	return
 
 $('#btn').on "click", handleFunc
+
+$ '#range'
+	.on 'input', ->
+		console.log lerp -200, 350, parseFloat(@value)

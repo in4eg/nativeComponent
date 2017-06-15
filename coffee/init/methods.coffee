@@ -1,4 +1,4 @@
-# 
+
 methods = {
 
 }
@@ -151,28 +151,34 @@ methods.off = (event, handler, useCapture) ->
 
 	@
 
-methods.fadeOut = (time, callback)->
-	# collection = @
-	if typeof time is "undefined"
-		time = 1000
-	
-	console.log time
+methods._animate = (options, time, onEnd)->
+
+	# console.log options
+
+	startOptions = []
+
+	$.utils.traverse @, (node, i)->
+		obj = {}
+		styles = getComputedStyle node
+		# console.log styles
+		startOptions[i] = obj
+		return
+
+	console.log startOptions
+
 	frameTime = 1000 / 60
 	framesCount = time / frameTime
 
-
 	step = (percent) =>
-		# step = (percent) ->
-			# @ change into collection
 		$.utils.traverse @, (node)->
-			node.style.opacity = (1 - percent)
+			for prop of options
+				node.style[prop] = 1-percent
 			return
 		return
 
 	i = 0
 	interval = setInterval ->
 		percent = i * frameTime / time
-		
 		if i < framesCount
 			i++
 			step(percent)
@@ -180,38 +186,12 @@ methods.fadeOut = (time, callback)->
 			clearInterval(interval)
 			percent = 1
 			step(percent)
+			if onEnd
+				onEnd()
 			return
-
-	if callback
-		callback @[0]
-	@
-methods.fadeIn = (time, callback)->
-	frameTime = 1000 / 60
-	framesCount = time / frameTime
-
-
-	step = (percent) =>
-		$.utils.traverse @, (node)->
-			node.style.opacity = percent
-			return
-		return
-
-	i = 0
-	interval = setInterval ->
-		percent = i * frameTime / time
-		
-		if i < framesCount
-			i++
-			step(percent)
-		else
-			clearInterval(interval)
-			percent = 1
-			step(percent)
-			return
-
-	if callback
-		callback @[0]
 	@
 
 
+lerp = (value1, value2, amount) ->
+	value1 + (value2 - value1) * amount
 

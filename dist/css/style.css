@@ -220,9 +220,7 @@ body {
 
 button {
   outline: none;
-  cursor: pointer;
-  -webkit-transition: .3s;
-  transition: .3s; }
+  cursor: pointer; }
 
 input {
   outline: none; }
@@ -383,7 +381,8 @@ address {
   color: #fff;
   height: 40px;
   line-height: 40px;
-  padding: 0 20px; }
+  padding: 0 20px;
+  margin: 20px; }
   .btn:hover {
     background-color: #1a53ff;
     border-color: #1a53ff; }

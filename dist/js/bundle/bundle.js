@@ -1,4 +1,4 @@
-var methods;
+var lerp, methods;
 
 methods = {};
 
@@ -179,18 +179,25 @@ methods.off = function(event, handler, useCapture) {
   return this;
 };
 
-methods.fadeOut = function(time, callback) {
-  var frameTime, framesCount, i, interval, step;
-  if (typeof time === "undefined") {
-    time = 1000;
-  }
-  console.log(time);
+methods._animate = function(options, time, onEnd) {
+  var frameTime, framesCount, i, interval, startOptions, step;
+  startOptions = [];
+  $.utils.traverse(this, function(node, i) {
+    var obj, styles;
+    obj = {};
+    styles = getComputedStyle(node);
+    startOptions[i] = obj;
+  });
+  console.log(startOptions);
   frameTime = 1000 / 60;
   framesCount = time / frameTime;
   step = (function(_this) {
     return function(percent) {
       $.utils.traverse(_this, function(node) {
-        node.style.opacity = 1 - percent;
+        var prop;
+        for (prop in options) {
+          node.style[prop] = 1 - percent;
+        }
       });
     };
   })(this);
@@ -205,42 +212,16 @@ methods.fadeOut = function(time, callback) {
       clearInterval(interval);
       percent = 1;
       step(percent);
+      if (onEnd) {
+        onEnd();
+      }
     }
   });
-  if (callback) {
-    callback(this[0]);
-  }
   return this;
 };
 
-methods.fadeIn = function(time, callback) {
-  var frameTime, framesCount, i, interval, step;
-  frameTime = 1000 / 60;
-  framesCount = time / frameTime;
-  step = (function(_this) {
-    return function(percent) {
-      $.utils.traverse(_this, function(node) {
-        node.style.opacity = percent;
-      });
-    };
-  })(this);
-  i = 0;
-  interval = setInterval(function() {
-    var percent;
-    percent = i * frameTime / time;
-    if (i < framesCount) {
-      i++;
-      return step(percent);
-    } else {
-      clearInterval(interval);
-      percent = 1;
-      step(percent);
-    }
-  });
-  if (callback) {
-    callback(this[0]);
-  }
-  return this;
+lerp = function(value1, value2, amount) {
+  return value1 + (value2 - value1) * amount;
 };
 ;var $, handleFunc;
 
@@ -296,8 +277,18 @@ $.utils = {
 };
 
 handleFunc = function() {
-  $('#btn2').fadeOut();
+  $('#btn2')._animate({
+    opacity: 0,
+    marginLeft: '100px',
+    paddingTop: '50px'
+  }, 2000, function() {
+    return console.log('end');
+  });
 };
 
 $('#btn').on("click", handleFunc);
+
+$('#range').on('input', function() {
+  return console.log(lerp(-200, 350, parseFloat(this.value)));
+});
 ;
