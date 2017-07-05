@@ -1,4 +1,4 @@
-var $, handleFunc;
+var $;
 
 $ = function(selector, context) {
   var choosenElements, method, res, result;
@@ -50,19 +50,3 @@ $.utils = {
     return selection;
   }
 };
-
-handleFunc = function() {
-  $('#btn2')._animate({
-    opacity: 0,
-    marginLeft: '100px',
-    paddingTop: '50px'
-  }, 2000, function() {
-    return console.log('end');
-  });
-};
-
-$('#btn').on("click", handleFunc);
-
-$('#range').on('input', function() {
-  return console.log(lerp(-200, 350, parseFloat(this.value)));
-});

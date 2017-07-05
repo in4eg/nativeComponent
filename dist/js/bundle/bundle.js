@@ -40,20 +40,7 @@ methods.removeAttr = function(attrName) {
   return this;
 };
 
-methods.apendTo = function(block) {
-  $.utils.traverse(this, function(node) {
-    var div;
-    if (typeof block === "object") {
-      div = block[0];
-    } else if (typeof block === "string") {
-      div = document.querySelectorAll(block)[0];
-    }
-    return div.appendChild(node);
-  });
-  return this;
-};
-
-methods.apendTo = function(block) {
+methods.appendTo = function(block) {
   $.utils.traverse(this, function(node) {
     var div;
     if (typeof block === "object") {
@@ -132,20 +119,12 @@ methods.hasClass = function(className) {
   }
 };
 
-methods.closest = function(elem) {
-  if (elem === "undefined") {
-    return this;
-  } else {
-    return this[0].closest(elem);
-  }
-};
-
 methods.parent = function() {
-  return this[0].parentElement;
+  return $(this[0].parentElement);
 };
 
 methods.next = function() {
-  return this[0].nextElementSibling;
+  return $(this[0].nextElementSibling);
 };
 
 methods.html = function(text) {
@@ -175,6 +154,44 @@ methods.off = function(event, handler, useCapture) {
     useCapture = true;
   } else {
     useCapture = false;
+  }
+  return this;
+};
+
+methods.closest = function(elem) {
+  if (elem === "undefined") {
+    return this;
+  } else {
+    return $(this[0].closest(elem));
+  }
+};
+
+methods.css = function(property, value) {
+  var cssProperty, finalProperty, key, modifyProperty;
+  if (typeof property === "undefined" && typeof value === "undefined") {
+    return window.getComputedStyle(this[0], null);
+  }
+  if (property && value) {
+    this[0].style.setProperty(property, value);
+  }
+  if (typeof property === "string" && typeof value === "undefined") {
+    modifyProperty = property.split('-');
+    finalProperty = modifyProperty.reduce((function(phrase, word, index) {
+      if (index === 0) {
+        return phrase + word;
+      } else {
+        return phrase + '' + word[0].toUpperCase() + word.slice(1);
+      }
+    }), '');
+    return window.getComputedStyle(this[0], null)[finalProperty];
+  }
+  if (typeof property === "object") {
+    for (key in property) {
+      cssProperty = key.split(key.match(/[A-Z]/g)).map(function(el) {
+        return el;
+      }).join('-' + key.match(/[A-Z]/g)).toLowerCase();
+      this[0].style.setProperty(cssProperty, property[key]);
+    }
   }
   return this;
 };
@@ -223,7 +240,7 @@ methods._animate = function(options, time, onEnd) {
 lerp = function(value1, value2, amount) {
   return value1 + (value2 - value1) * amount;
 };
-;var $, handleFunc;
+;var $;
 
 $ = function(selector, context) {
   var choosenElements, method, res, result;
@@ -275,20 +292,4 @@ $.utils = {
     return selection;
   }
 };
-
-handleFunc = function() {
-  $('#btn2')._animate({
-    opacity: 0,
-    marginLeft: '100px',
-    paddingTop: '50px'
-  }, 2000, function() {
-    return console.log('end');
-  });
-};
-
-$('#btn').on("click", handleFunc);
-
-$('#range').on('input', function() {
-  return console.log(lerp(-200, 350, parseFloat(this.value)));
-});
 ;

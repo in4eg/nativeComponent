@@ -52,16 +52,27 @@ $.utils =
 # console.dir $
 # console.dir methods
 
-handleFunc = ->
-	$('#btn2')._animate({
-		opacity: 0
-		marginLeft: '100px'
-		paddingTop: '50px'
-	}, 2000, -> console.log('end'))
-	return
+# handleFunc = ->
+# 	$('#btn2')._animate({
+# 		opacity: 0
+# 		marginLeft: '100px'
+# 		paddingTop: '50px'
+# 	}, 2000, -> console.log('end'))
+# 	return
 
-$('#btn').on "click", handleFunc
+# $('#btn').on "click", handleFunc
 
-$ '#range'
-	.on 'input', ->
-		console.log lerp -200, 350, parseFloat(@value)
+# $ '#range'
+# 	.on 'input', ->
+# 		console.log lerp -200, 350, parseFloat(@value)
+
+# $('#dropdown').css({
+#          border:"1px solid blue",
+#          fontWeight:"bolder",
+#          backgroundColor:"red"
+#          })
+
+
+# console.log $('.section-title').css('border')
+
+

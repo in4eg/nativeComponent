@@ -35,18 +35,8 @@ methods.removeAttr = (attrName)->
 	$.utils.traverse @, (node)-> node.removeAttribute(attrName)
 	@
 
-methods.apendTo = (block)->
 
-	$.utils.traverse @, (node)->
-		if typeof block is "object"
-			div = (block)[0]
-		else if typeof block is "string"
-			div = document.querySelectorAll(block)[0]
-			
-		div.appendChild(node)
-	@
-
-methods.apendTo = (block)->
+methods.appendTo = (block)->
 
 	$.utils.traverse @, (node)->
 		if typeof block is "object"
@@ -115,17 +105,11 @@ methods.hasClass = (className)->
 	else
 		return off
 
-methods.closest = (elem)->
-	if elem is "undefined"
-		return @
-	else
-		return @[0].closest(elem)
-
 methods.parent = ->
-	@[0].parentElement
+	$(@[0].parentElement)
 
 methods.next = ->
-	@[0].nextElementSibling
+	$(@[0].nextElementSibling)
 
 methods.html = (text) ->
 	$.utils.traverse @, (node)->
@@ -141,6 +125,7 @@ methods.on = (event, handler, useCapture) ->
 		useCapture = on
 	else useCapture = off
 	@
+
 methods.off = (event, handler, useCapture) ->
 	$.utils.traverse @, (node)->
 		node.removeEventListener event, handler
@@ -150,6 +135,45 @@ methods.off = (event, handler, useCapture) ->
 	else useCapture = off
 
 	@
+
+methods.closest = (elem)->
+
+	if elem is "undefined"
+		return @
+	else
+		return $(@[0].closest(elem))
+
+methods.css = (property, value)->
+
+	if typeof property is "undefined" and typeof value is "undefined"
+		return window.getComputedStyle(@[0], null)
+	
+	if property and value
+		@[0].style.setProperty(property, value)
+
+	if typeof property is "string" and typeof value is "undefined"
+
+		modifyProperty = property.split('-')
+
+		finalProperty = modifyProperty.reduce(((phrase, word, index) ->
+			if index == 0
+			then phrase + word
+			else phrase + '' + word[0].toUpperCase() + word.slice(1)
+		), '')
+		
+		return window.getComputedStyle(@[0], null)[finalProperty]
+
+	if typeof property is "object"
+
+		for key of property
+			cssProperty = key.split(key.match(/[A-Z]/g)).map((el) ->
+				el
+			).join('-' + key.match(/[A-Z]/g)).toLowerCase()
+
+			@[0].style.setProperty(cssProperty, property[key])
+
+	@
+
 
 methods._animate = (options, time, onEnd)->
 
