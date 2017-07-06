@@ -172,7 +172,9 @@ methods.css = function(property, value) {
     return window.getComputedStyle(this[0], null);
   }
   if (property && value) {
-    this[0].style.setProperty(property, value);
+    $.utils.traverse(this, function(node) {
+      return node.style.setProperty(property, value);
+    });
   }
   if (typeof property === "string" && typeof value === "undefined") {
     modifyProperty = property.split('-');
@@ -190,7 +192,9 @@ methods.css = function(property, value) {
       cssProperty = key.split(key.match(/[A-Z]/g)).map(function(el) {
         return el;
       }).join('-' + key.match(/[A-Z]/g)).toLowerCase();
-      this[0].style.setProperty(cssProperty, property[key]);
+      $.utils.traverse(this, function(node) {
+        return node.style.setProperty(cssProperty, property[key]);
+      });
     }
   }
   return this;
@@ -205,7 +209,6 @@ methods._animate = function(options, time, onEnd) {
     styles = getComputedStyle(node);
     startOptions[i] = obj;
   });
-  console.log(startOptions);
   frameTime = 1000 / 60;
   framesCount = time / frameTime;
   step = (function(_this) {
@@ -234,6 +237,90 @@ methods._animate = function(options, time, onEnd) {
       }
     }
   });
+  return this;
+};
+
+methods.fadeOut = function(time, func1, func2, func3) {
+  var durationTime, frameTime, framesCount, i;
+  if (func1 && func2) {
+    func1();
+  }
+  if (typeof time === "undefined") {
+    time = 500;
+  }
+  frameTime = 1000 / 60;
+  framesCount = time / frameTime;
+  i = 0;
+  durationTime = setInterval(((function(_this) {
+    return function() {
+      var percent;
+      percent = i / framesCount;
+      i++;
+      $.utils.traverse(_this, function(node) {
+        return node.style.opacity = 1 - percent;
+      });
+      if (func1 && func2 && func3) {
+        func2();
+      }
+      if (percent > 1) {
+        percent = 1;
+        clearInterval(durationTime);
+        if (func1 && typeof func2 === "undefined") {
+          func1(percent);
+        }
+        if (func1 && func2 && typeof func3 === "undefined") {
+          func2(percent);
+        }
+        if (func1 && func2 && func3) {
+          func3();
+        }
+      }
+    };
+  })(this)), framesCount);
+  return this;
+};
+
+methods.fadeIn = function(time, func1, func2, func3) {
+  var durationTime, frameTime, framesCount, i;
+  if (func1 && func2) {
+    func1();
+  }
+  if (typeof time === "undefined") {
+    time = 500;
+  }
+  frameTime = 1000 / 60;
+  framesCount = time / frameTime;
+  i = 1;
+  durationTime = setInterval(((function(_this) {
+    return function() {
+      var percent;
+      percent = i / framesCount;
+      i++;
+      $.utils.traverse(_this, function(node) {
+        return node.style.opacity = percent;
+      });
+      if (func1 && func2 && func3) {
+        func2();
+      }
+      if (percent > 1) {
+        percent = 1;
+        clearInterval(durationTime);
+        if (func1 && typeof func2 === "undefined") {
+          func1(percent);
+        }
+        if (func1 && func2 && typeof func3 === "undefined") {
+          func2(percent);
+        }
+        if (func1 && func2 && func3) {
+          func3();
+        }
+      }
+    };
+  })(this)), framesCount);
+  return this;
+};
+
+methods.slideDown = function(time, func1, func2, func3) {
   return this;
 };
 

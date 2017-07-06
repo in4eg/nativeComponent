@@ -1,5 +1,6 @@
 .section {
 	margin: 50px 0;
+	opacity: 0;
 
 	&.danger {
 		background-color: $danger;

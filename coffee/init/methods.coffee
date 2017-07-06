@@ -1,7 +1,5 @@
 
-methods = {
-
-}
+methods = {}
 
 methods.eq = (index)->
 	$(@[index])
@@ -149,7 +147,8 @@ methods.css = (property, value)->
 		return window.getComputedStyle(@[0], null)
 	
 	if property and value
-		@[0].style.setProperty(property, value)
+		$.utils.traverse @, (node)->
+			node.style.setProperty(property, value)
 
 	if typeof property is "string" and typeof value is "undefined"
 
@@ -170,7 +169,8 @@ methods.css = (property, value)->
 				el
 			).join('-' + key.match(/[A-Z]/g)).toLowerCase()
 
-			@[0].style.setProperty(cssProperty, property[key])
+			$.utils.traverse @, (node)->
+				node.style.setProperty(cssProperty, property[key])
 
 	@
 
@@ -188,7 +188,7 @@ methods._animate = (options, time, onEnd)->
 		startOptions[i] = obj
 		return
 
-	console.log startOptions
+	# console.log startOptions
 
 	frameTime = 1000 / 60
 	framesCount = time / frameTime
@@ -215,7 +215,93 @@ methods._animate = (options, time, onEnd)->
 			return
 	@
 
+methods.fadeOut = (time, func1, func2, func3)->
 
+	if func1 and func2
+		func1()
+	
+	if typeof time is "undefined"
+		time = 500
+
+	frameTime = 1000 / 60
+	framesCount = time / frameTime
+	i = 0
+
+	# начать повторы с интервалом framesCount
+	durationTime = setInterval((=>
+		percent = i / framesCount
+		i++
+		$.utils.traverse @, (node)->
+			node.style.opacity = 1-percent
+
+		if func1 and func2 and func3
+			func2()
+
+		if percent > 1
+			percent = 1
+			# остановить повторы
+			clearInterval durationTime
+
+			if func1 and typeof func2 is "undefined"
+				func1(percent)
+
+			if func1 and func2 and typeof func3 is "undefined"
+				func2(percent)
+
+			if func1 and func2 and func3
+				func3()
+			
+		return
+	), framesCount)
+
+	@
+
+methods.fadeIn = (time, func1, func2, func3)->
+
+	if func1 and func2
+		func1()
+	
+	if typeof time is "undefined"
+		time = 500
+
+	frameTime = 1000 / 60
+	framesCount = time / frameTime
+	i = 1
+
+	# начать повторы с интервалом framesCount
+	durationTime = setInterval((=>
+		percent = i / framesCount
+		i++
+		$.utils.traverse @, (node)->
+			node.style.opacity = percent
+
+		if func1 and func2 and func3
+			func2()
+
+		if percent > 1
+			percent = 1
+			# остановить повторы
+			clearInterval durationTime
+
+			if func1 and typeof func2 is "undefined"
+				func1(percent)
+
+			if func1 and func2 and typeof func3 is "undefined"
+				func2(percent)
+
+			if func1 and func2 and func3
+				func3()
+			
+		return
+	), framesCount)
+
+	@
+
+methods.slideDown = (time, func1, func2, func3)->
+
+
+	@
+	
 lerp = (value1, value2, amount) ->
 	value1 + (value2 - value1) * amount
 

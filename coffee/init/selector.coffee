@@ -66,13 +66,28 @@ $.utils =
 # 	.on 'input', ->
 # 		console.log lerp -200, 350, parseFloat(@value)
 
-# $('#dropdown').css({
-#          border:"1px solid blue",
-#          fontWeight:"bolder",
-#          backgroundColor:"red"
-#          })
+handleFunc = (arg)->
+	console.log 'first'
+	return
+
+handleFunc2 = (arg)->
+	console.log 'middle'
+	return
+
+handleFunc3 = (arg)->
+	console.log 'last'
+	return
+
+$('#tabs').slideDown(500, handleFunc)
 
 
-# console.log $('.section-title').css('border')
+
+
+
+
+
+
+
+
 
 
