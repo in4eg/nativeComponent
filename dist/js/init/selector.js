@@ -1,4 +1,4 @@
-var $, handleFunc, handleFunc2, handleFunc3;
+var $;
 
 $ = function(selector, context) {
   var choosenElements, method, res, result;
@@ -50,17 +50,3 @@ $.utils = {
     return selection;
   }
 };
-
-handleFunc = function(arg) {
-  console.log('first');
-};
-
-handleFunc2 = function(arg) {
-  console.log('middle');
-};
-
-handleFunc3 = function(arg) {
-  console.log('last');
-};
-
-$('#tabs').slideDown(500, handleFunc);

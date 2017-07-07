@@ -66,23 +66,25 @@ $.utils =
 # 	.on 'input', ->
 # 		console.log lerp -200, 350, parseFloat(@value)
 
-handleFunc = (arg)->
-	console.log 'first'
-	return
-
-handleFunc2 = (arg)->
-	console.log 'middle'
-	return
-
-handleFunc3 = (arg)->
-	console.log 'last'
-	return
-
-$('#tabs').slideDown(500, handleFunc)
 
 
 
+# handleFunc = ()->
+# 	console.log 'start'
+# 	return
 
+# handleFunc2 = (arg)->
+# 	console.log arg
+# 	return
+
+# handleFunc3 = (arg)->
+# 	console.log arg
+# 	return
+
+# $('#tabs').fadeOut(500, handleFunc, handleFunc2, handleFunc3)
+
+
+# $('#slide-example').slideUp(1200)
 
 
 

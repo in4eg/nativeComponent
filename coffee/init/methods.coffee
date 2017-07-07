@@ -111,7 +111,7 @@ methods.next = ->
 
 methods.html = (text) ->
 	$.utils.traverse @, (node)->
-		node.innerHTML text
+		node.innerHTML = text
 	@
 
 methods.on = (event, handler, useCapture) ->
@@ -175,6 +175,150 @@ methods.css = (property, value)->
 	@
 
 
+methods.fadeOut = (time, func1, func2, func3)->
+
+	if func1 and func2
+		func1()
+
+	if typeof time is "undefined"
+		time = 500
+
+	frameTime = 1000 / 60
+	framesCount = time / frameTime
+	i = 1
+
+	step = =>
+		i++
+		percent = i / framesCount
+
+		$.utils.traverse @, (node)->
+			# clamp
+			node.style.opacity = 1 -  Math.max(0, Math.min(percent, 1)) 
+
+			# console.log node.style.opacity
+
+		if func1 and func2 and func3
+			func2 percent
+
+		if percent <= 1
+			requestAnimationFrame step
+
+		if percent >= 1
+
+			if func1 and typeof func2 is "undefined"
+				func1 percent
+
+			if func1 and func2 and typeof func3 is "undefined"
+				func2 percent
+
+			if func1 and func2 and func3
+				func3 percent
+		
+		return
+
+	step()
+
+	@
+
+methods.fadeIn = (time, func1, func2, func3)->
+
+	if func1 and func2
+		func1()
+	
+	if typeof time is "undefined"
+		time = 500
+
+	frameTime = 1000 / 60
+	framesCount = time / frameTime
+	i = 0
+
+	step = =>
+		i++
+		percent = i / framesCount
+
+		$.utils.traverse @, (node)->
+			# clamp
+			node.style.opacity = Math.max(0, Math.min(percent, 1)) 
+
+			# console.log node.style.opacity
+		if func1 and func2 and func3
+			func2 percent
+
+		if percent <= 1
+			requestAnimationFrame step
+
+		if percent >= 1
+
+			if func1 and typeof func2 is "undefined"
+				func1 percent
+
+			if func1 and func2 and typeof func3 is "undefined"
+				func2 percent
+
+			if func1 and func2 and func3
+				func3 percent
+		
+		return
+
+	step()
+
+	@
+
+methods.slideUp = (time, func1, func2, func3)->
+
+	# with requestAnimationFrame
+	if func1 and func2
+		func1()
+
+	if typeof time is "undefined"
+		time = 500
+
+	frameTime = 1000 / 60
+	framesCount = time / frameTime
+	i = 1
+
+	console.log (
+			$.utils.traverse @, (node)->
+			# clamp
+			node.style.height
+		)
+
+	step = =>
+		i++
+		percent = i / framesCount
+
+		$.utils.traverse @, (node)->
+			# clamp
+			node.style.opacity = 1 -  Math.max(0, Math.min(percent, 1)) 
+
+			# console.log node.style.opacity
+
+		if func1 and func2 and func3
+			func2 percent
+
+		if percent <= 1
+			requestAnimationFrame step
+
+		if percent >= 1
+
+			if func1 and typeof func2 is "undefined"
+				func1 percent
+
+			if func1 and func2 and typeof func3 is "undefined"
+				func2 percent
+
+			if func1 and func2 and func3
+				func3 percent
+		
+		return
+
+	step()
+
+
+	@
+
+
+
 methods._animate = (options, time, onEnd)->
 
 	# console.log options
@@ -215,93 +359,6 @@ methods._animate = (options, time, onEnd)->
 			return
 	@
 
-methods.fadeOut = (time, func1, func2, func3)->
-
-	if func1 and func2
-		func1()
-	
-	if typeof time is "undefined"
-		time = 500
-
-	frameTime = 1000 / 60
-	framesCount = time / frameTime
-	i = 0
-
-	# начать повторы с интервалом framesCount
-	durationTime = setInterval((=>
-		percent = i / framesCount
-		i++
-		$.utils.traverse @, (node)->
-			node.style.opacity = 1-percent
-
-		if func1 and func2 and func3
-			func2()
-
-		if percent > 1
-			percent = 1
-			# остановить повторы
-			clearInterval durationTime
-
-			if func1 and typeof func2 is "undefined"
-				func1(percent)
-
-			if func1 and func2 and typeof func3 is "undefined"
-				func2(percent)
-
-			if func1 and func2 and func3
-				func3()
-			
-		return
-	), framesCount)
-
-	@
-
-methods.fadeIn = (time, func1, func2, func3)->
-
-	if func1 and func2
-		func1()
-	
-	if typeof time is "undefined"
-		time = 500
-
-	frameTime = 1000 / 60
-	framesCount = time / frameTime
-	i = 1
-
-	# начать повторы с интервалом framesCount
-	durationTime = setInterval((=>
-		percent = i / framesCount
-		i++
-		$.utils.traverse @, (node)->
-			node.style.opacity = percent
-
-		if func1 and func2 and func3
-			func2()
-
-		if percent > 1
-			percent = 1
-			# остановить повторы
-			clearInterval durationTime
-
-			if func1 and typeof func2 is "undefined"
-				func1(percent)
-
-			if func1 and func2 and typeof func3 is "undefined"
-				func2(percent)
-
-			if func1 and func2 and func3
-				func3()
-			
-		return
-	), framesCount)
-
-	@
-
-methods.slideDown = (time, func1, func2, func3)->
-
-
-	@
-	
 lerp = (value1, value2, amount) ->
 	value1 + (value2 - value1) * amount
 

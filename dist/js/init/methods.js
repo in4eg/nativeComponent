@@ -129,7 +129,7 @@ methods.next = function() {
 
 methods.html = function(text) {
   $.utils.traverse(this, function(node) {
-    return node.innerHTML(text);
+    return node.innerHTML = text;
   });
   return this;
 };
@@ -200,6 +200,133 @@ methods.css = function(property, value) {
   return this;
 };
 
+methods.fadeOut = function(time, func1, func2, func3) {
+  var frameTime, framesCount, i, step;
+  if (func1 && func2) {
+    func1();
+  }
+  if (typeof time === "undefined") {
+    time = 500;
+  }
+  frameTime = 1000 / 60;
+  framesCount = time / frameTime;
+  i = 1;
+  step = (function(_this) {
+    return function() {
+      var percent;
+      i++;
+      percent = i / framesCount;
+      $.utils.traverse(_this, function(node) {
+        return node.style.opacity = 1 - Math.max(0, Math.min(percent, 1));
+      });
+      if (func1 && func2 && func3) {
+        func2(percent);
+      }
+      if (percent <= 1) {
+        requestAnimationFrame(step);
+      }
+      if (percent >= 1) {
+        if (func1 && typeof func2 === "undefined") {
+          func1(percent);
+        }
+        if (func1 && func2 && typeof func3 === "undefined") {
+          func2(percent);
+        }
+        if (func1 && func2 && func3) {
+          func3(percent);
+        }
+      }
+    };
+  })(this);
+  step();
+  return this;
+};
+
+methods.fadeIn = function(time, func1, func2, func3) {
+  var frameTime, framesCount, i, step;
+  if (func1 && func2) {
+    func1();
+  }
+  if (typeof time === "undefined") {
+    time = 500;
+  }
+  frameTime = 1000 / 60;
+  framesCount = time / frameTime;
+  i = 0;
+  step = (function(_this) {
+    return function() {
+      var percent;
+      i++;
+      percent = i / framesCount;
+      $.utils.traverse(_this, function(node) {
+        return node.style.opacity = Math.max(0, Math.min(percent, 1));
+      });
+      if (func1 && func2 && func3) {
+        func2(percent);
+      }
+      if (percent <= 1) {
+        requestAnimationFrame(step);
+      }
+      if (percent >= 1) {
+        if (func1 && typeof func2 === "undefined") {
+          func1(percent);
+        }
+        if (func1 && func2 && typeof func3 === "undefined") {
+          func2(percent);
+        }
+        if (func1 && func2 && func3) {
+          func3(percent);
+        }
+      }
+    };
+  })(this);
+  step();
+  return this;
+};
+
+methods.slideUp = function(time, func1, func2, func3) {
+  var frameTime, framesCount, i, step;
+  if (func1 && func2) {
+    func1();
+  }
+  if (typeof time === "undefined") {
+    time = 500;
+  }
+  frameTime = 1000 / 60;
+  framesCount = time / frameTime;
+  i = 1;
+  console.log(($.utils.traverse(this, function(node) {}), node.style.height));
+  step = (function(_this) {
+    return function() {
+      var percent;
+      i++;
+      percent = i / framesCount;
+      $.utils.traverse(_this, function(node) {
+        return node.style.opacity = 1 - Math.max(0, Math.min(percent, 1));
+      });
+      if (func1 && func2 && func3) {
+        func2(percent);
+      }
+      if (percent <= 1) {
+        requestAnimationFrame(step);
+      }
+      if (percent >= 1) {
+        if (func1 && typeof func2 === "undefined") {
+          func1(percent);
+        }
+        if (func1 && func2 && typeof func3 === "undefined") {
+          func2(percent);
+        }
+        if (func1 && func2 && func3) {
+          func3(percent);
+        }
+      }
+    };
+  })(this);
+  step();
+  return this;
+};
+
 methods._animate = function(options, time, onEnd) {
   var frameTime, framesCount, i, interval, startOptions, step;
   startOptions = [];
@@ -237,90 +364,6 @@ methods._animate = function(options, time, onEnd) {
       }
     }
   });
-  return this;
-};
-
-methods.fadeOut = function(time, func1, func2, func3) {
-  var durationTime, frameTime, framesCount, i;
-  if (func1 && func2) {
-    func1();
-  }
-  if (typeof time === "undefined") {
-    time = 500;
-  }
-  frameTime = 1000 / 60;
-  framesCount = time / frameTime;
-  i = 0;
-  durationTime = setInterval(((function(_this) {
-    return function() {
-      var percent;
-      percent = i / framesCount;
-      i++;
-      $.utils.traverse(_this, function(node) {
-        return node.style.opacity = 1 - percent;
-      });
-      if (func1 && func2 && func3) {
-        func2();
-      }
-      if (percent > 1) {
-        percent = 1;
-        clearInterval(durationTime);
-        if (func1 && typeof func2 === "undefined") {
-          func1(percent);
-        }
-        if (func1 && func2 && typeof func3 === "undefined") {
-          func2(percent);
-        }
-        if (func1 && func2 && func3) {
-          func3();
-        }
-      }
-    };
-  })(this)), framesCount);
-  return this;
-};
-
-methods.fadeIn = function(time, func1, func2, func3) {
-  var durationTime, frameTime, framesCount, i;
-  if (func1 && func2) {
-    func1();
-  }
-  if (typeof time === "undefined") {
-    time = 500;
-  }
-  frameTime = 1000 / 60;
-  framesCount = time / frameTime;
-  i = 1;
-  durationTime = setInterval(((function(_this) {
-    return function() {
-      var percent;
-      percent = i / framesCount;
-      i++;
-      $.utils.traverse(_this, function(node) {
-        return node.style.opacity = percent;
-      });
-      if (func1 && func2 && func3) {
-        func2();
-      }
-      if (percent > 1) {
-        percent = 1;
-        clearInterval(durationTime);
-        if (func1 && typeof func2 === "undefined") {
-          func1(percent);
-        }
-        if (func1 && func2 && typeof func3 === "undefined") {
-          func2(percent);
-        }
-        if (func1 && func2 && func3) {
-          func3();
-        }
-      }
-    };
-  })(this)), framesCount);
-  return this;
-};
-
-methods.slideDown = function(time, func1, func2, func3) {
   return this;
 };
 

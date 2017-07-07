@@ -326,10 +326,26 @@ address {
     vertical-align: top; }
 
 .section {
-  margin: 50px 0;
-  opacity: 0; }
+  margin: 50px 0; }
   .section.danger {
     background-color: #F44336; }
+
+.square {
+  width: 150px;
+  height: 150px;
+  background-color: #0033CC;
+  max-width: 100%;
+  max-height: 100%; }
+
+.example {
+  height: 150px;
+  margin: 15px 0; }
+
+.callback {
+  margin: 15px -10px; }
+  .callback .info {
+    display: inline-block;
+    padding: 0 10px; }
 
 .aside-nav {
   margin: 50px 0;
@@ -382,8 +398,7 @@ address {
   color: #fff;
   height: 40px;
   line-height: 40px;
-  padding: 0 20px;
-  margin: 20px; }
+  padding: 0 20px; }
   .btn:hover {
     background-color: #1a53ff;
     border-color: #1a53ff; }

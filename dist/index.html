@@ -10,12 +10,39 @@
 </head>
 <body>
 	<div class="container">
+
 		<div class="inline-wrap">
 			<div class="col-9">
-				<button class="btn" id="btn">button 1</button>
-				<button class="btn" id="btn2">button 2</button>
+				<section class="section" id="fade">
+					<div class="section-title">.fadeIn(), .fadeOut()</div>
+					<div class="example">
+						<div class="square" id="fade-example"></div>
+					</div>
+					<div class="callback">
+						<div class="info">CallBack Info</div>
+						<div class="info fade-first"></div>
+						<div class="info fade-secound"></div>
+						<div class="info fade-last"></div>
+					</div>
+					<div class="btn-group">
+						<button class="btn" id="fadeout">fadeOut</button>
+						<button class="btn" id="fadein">fadeIn</button>
+					</div>
+				</section>
 
-				<input type="range" min="0" step="0.001" max="1" id="range">
+
+				<section class="section" id="slide">
+					<div class="section-title">.slideDown(), .slideUp(), .slideToggle()</div>
+					<div class="example">
+						<div class="square" id="slide-example"></div>
+					</div>
+					<div class="btn-group">
+						<button class="btn" id="slideup">slideUp</button>
+						<button class="btn" id="slidedown">slideDown</button>
+						<button class="btn" id="slidetoggle">slideToggle</button>
+					</div>
+				</section>
+
 
 				<section class="section" id="dropdown">
 					<div class="section-title">dropdown</div>
@@ -53,6 +80,8 @@
 			<div class="col-3">
 				<nav class="aside-nav">
 					<ul class="nav-list">
+						<li><a href="#fade">.fadeIn(), .fadeOut()</a></li>
+						<li><a href="#slide">.slideDown(), .slideUp(), .slideToggle()</a></li>
 						<li><a href="#dropdown">dropdown</a></li>
 						<li><a href="#tabs">tabs</a></li>
 						<li><a href="#accordeon">accordeon</a></li>
@@ -64,6 +93,8 @@
 					</ul>
 				</nav>
 			</div>
+			<input type="range" min="0" step="0.001" max="1" id="range">
+
 		</div>
 	</div>
 
