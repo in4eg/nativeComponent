@@ -133,6 +133,8 @@ methods.off = (event, handler, useCapture) ->
 	else useCapture = off
 
 	@
+methods.height = ->
+	@[0].clientHeight
 
 methods.closest = (elem)->
 
@@ -181,7 +183,7 @@ methods.fadeOut = (time, func1, func2, func3)->
 		func1()
 
 	if typeof time is "undefined"
-		time = 500
+		time = 250
 
 	frameTime = 1000 / 60
 	framesCount = time / frameTime
@@ -193,7 +195,7 @@ methods.fadeOut = (time, func1, func2, func3)->
 
 		$.utils.traverse @, (node)->
 			# clamp
-			node.style.opacity = 1 -  Math.max(0, Math.min(percent, 1)) 
+			node.style.opacity = 1 -  Math.max(0, Math.min(percent, 1))
 
 			# console.log node.style.opacity
 
@@ -226,7 +228,7 @@ methods.fadeIn = (time, func1, func2, func3)->
 		func1()
 	
 	if typeof time is "undefined"
-		time = 500
+		time = 250
 
 	frameTime = 1000 / 60
 	framesCount = time / frameTime
@@ -238,7 +240,7 @@ methods.fadeIn = (time, func1, func2, func3)->
 
 		$.utils.traverse @, (node)->
 			# clamp
-			node.style.opacity = Math.max(0, Math.min(percent, 1)) 
+			node.style.opacity = Math.max(0, Math.min(percent, 1))
 
 			# console.log node.style.opacity
 		if func1 and func2 and func3
@@ -277,21 +279,13 @@ methods.slideUp = (time, func1, func2, func3)->
 	framesCount = time / frameTime
 	i = 1
 
-	console.log (
-			$.utils.traverse @, (node)->
-			# clamp
-			node.style.height
-		)
-
 	step = =>
 		i++
 		percent = i / framesCount
 
 		$.utils.traverse @, (node)->
-			# clamp
-			node.style.opacity = 1 -  Math.max(0, Math.min(percent, 1)) 
-
-			# console.log node.style.opacity
+			node.style.maxHeight = node.offsetHeight - node.offsetHeight * Math.max(0, Math.min(percent, 1)) + "px"
+			node.style.opacity = 1 -  Math.max(0, Math.min(percent, 1))
 
 		if func1 and func2 and func3
 			func2 percent
@@ -309,15 +303,66 @@ methods.slideUp = (time, func1, func2, func3)->
 
 			if func1 and func2 and func3
 				func3 percent
+
+			$.utils.traverse @, (node)->
+				node.style.display = "none"
 		
 		return
 
 	step()
 
+	@
+
+methods.slideDown = (time, func1, func2, func3)->
+	
+	$.utils.traverse @, (node)->
+		node.style.display = "block"
+
+	if func1 and func2
+		func1()
+
+	if typeof time is "undefined"
+		time = 500
+
+	frameTime = 1000 / 60
+	framesCount = time / frameTime
+	i = 1
+
+	step = =>
+		i++
+		percent = i / framesCount
+
+		$.utils.traverse @, (node)->
+			node.style.maxHeight = Math.max(0, Math.min(percent * 100, 100)) + "%"
+			node.style.opacity = Math.max(0, Math.min(percent, 1))
+
+		if func1 and func2 and func3
+			func2 percent
+
+		if percent <= 1
+			requestAnimationFrame step
+
+		if percent >= 1
+
+			if func1 and typeof func2 is "undefined"
+				func1 percent
+
+			if func1 and func2 and typeof func3 is "undefined"
+				func2 percent
+
+			if func1 and func2 and func3
+				func3 percent
+
+		return
+
+	step()
 
 	@
 
+methods.slideToggle = (time, func1, func2, func3)->
 
+	console.log "slideToggle"
+	@
 
 methods._animate = (options, time, onEnd)->
 
@@ -361,4 +406,10 @@ methods._animate = (options, time, onEnd)->
 
 lerp = (value1, value2, amount) ->
 	value1 + (value2 - value1) * amount
+
+
+window.requestAminFrame = do ->
+	window.requestAminFrame or window.webkitRequestAnimFrame or window.mozRequestAnimFrame or window.msRequestAnimFrame or window.oRequestAnimFrame or (func) ->
+		setTimeout func, 1 / 60
+
 

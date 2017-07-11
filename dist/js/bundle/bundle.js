@@ -158,6 +158,10 @@ methods.off = function(event, handler, useCapture) {
   return this;
 };
 
+methods.height = function() {
+  return this[0].clientHeight;
+};
+
 methods.closest = function(elem) {
   if (elem === "undefined") {
     return this;
@@ -206,7 +210,7 @@ methods.fadeOut = function(time, func1, func2, func3) {
     func1();
   }
   if (typeof time === "undefined") {
-    time = 500;
+    time = 250;
   }
   frameTime = 1000 / 60;
   framesCount = time / frameTime;
@@ -248,7 +252,7 @@ methods.fadeIn = function(time, func1, func2, func3) {
     func1();
   }
   if (typeof time === "undefined") {
-    time = 500;
+    time = 250;
   }
   frameTime = 1000 / 60;
   framesCount = time / frameTime;
@@ -295,14 +299,63 @@ methods.slideUp = function(time, func1, func2, func3) {
   frameTime = 1000 / 60;
   framesCount = time / frameTime;
   i = 1;
-  console.log(($.utils.traverse(this, function(node) {}), node.style.height));
   step = (function(_this) {
     return function() {
       var percent;
       i++;
       percent = i / framesCount;
       $.utils.traverse(_this, function(node) {
+        node.style.maxHeight = node.offsetHeight - node.offsetHeight * Math.max(0, Math.min(percent, 1)) + "px";
         return node.style.opacity = 1 - Math.max(0, Math.min(percent, 1));
+      });
+      if (func1 && func2 && func3) {
+        func2(percent);
+      }
+      if (percent <= 1) {
+        requestAnimationFrame(step);
+      }
+      if (percent >= 1) {
+        if (func1 && typeof func2 === "undefined") {
+          func1(percent);
+        }
+        if (func1 && func2 && typeof func3 === "undefined") {
+          func2(percent);
+        }
+        if (func1 && func2 && func3) {
+          func3(percent);
+        }
+        $.utils.traverse(_this, function(node) {
+          return node.style.display = "none";
+        });
+      }
+    };
+  })(this);
+  step();
+  return this;
+};
+
+methods.slideDown = function(time, func1, func2, func3) {
+  var frameTime, framesCount, i, step;
+  $.utils.traverse(this, function(node) {
+    return node.style.display = "block";
+  });
+  if (func1 && func2) {
+    func1();
+  }
+  if (typeof time === "undefined") {
+    time = 500;
+  }
+  frameTime = 1000 / 60;
+  framesCount = time / frameTime;
+  i = 1;
+  step = (function(_this) {
+    return function() {
+      var percent;
+      i++;
+      percent = i / framesCount;
+      $.utils.traverse(_this, function(node) {
+        node.style.maxHeight = Math.max(0, Math.min(percent * 100, 100)) + "%";
+        return node.style.opacity = Math.max(0, Math.min(percent, 1));
       });
       if (func1 && func2 && func3) {
         func2(percent);
@@ -324,6 +377,11 @@ methods.slideUp = function(time, func1, func2, func3) {
     };
   })(this);
   step();
+  return this;
+};
+
+methods.slideToggle = function(time, func1, func2, func3) {
+  console.log("slideToggle");
   return this;
 };
 
@@ -370,6 +428,12 @@ methods._animate = function(options, time, onEnd) {
 lerp = function(value1, value2, amount) {
   return value1 + (value2 - value1) * amount;
 };
+
+window.requestAminFrame = (function() {
+  return window.requestAminFrame || window.webkitRequestAnimFrame || window.mozRequestAnimFrame || window.msRequestAnimFrame || window.oRequestAnimFrame || function(func) {
+    return setTimeout(func, 1 / 60);
+  };
+})();
 ;var $;
 
 $ = function(selector, context) {
@@ -422,7 +486,7 @@ $.utils = {
     return selection;
   }
 };
-;var fadeHandleFirst, fadeHandleLast, fadeHandleSecound, fadeInElement, fadeOutElement;
+;var fadeHandleFirst, fadeHandleLast, fadeHandleSecound, fadeInElement, fadeOutElement, slideHandleFirst, slideHandleLast, slideHandleSecound;
 
 fadeHandleFirst = function() {
   $('.fade-first').html('First CallBack');
@@ -436,12 +500,24 @@ fadeHandleLast = function() {
   $('.fade-last').html('Last CallBack');
 };
 
+slideHandleFirst = function() {
+  $('.slide-first').html('First CallBack');
+};
+
+slideHandleSecound = function(height) {
+  $('.slide-secound').html($('#slide-example').height());
+};
+
+slideHandleLast = function() {
+  $('.slide-last').html('Last CallBack');
+};
+
 fadeOutElement = function() {
-  $('#fade-example').fadeOut(1500, fadeHandleFirst, fadeHandleSecound, fadeHandleLast);
+  $('#fade-example').fadeOut(250, fadeHandleFirst, fadeHandleSecound, fadeHandleLast);
 };
 
 fadeInElement = function() {
-  $('#fade-example').fadeIn(1500, fadeHandleFirst, fadeHandleSecound, fadeHandleLast);
+  $('#fade-example').fadeIn(250, fadeHandleFirst, fadeHandleSecound, fadeHandleLast);
 };
 
 $('#fadeout').on("click", fadeOutElement);
@@ -449,5 +525,13 @@ $('#fadeout').on("click", fadeOutElement);
 $('#fadein').on("click", fadeInElement);
 
 $('#slideup').on("click", function() {
-  console.log('slideup');
+  $('#slide-example').slideUp(150, slideHandleFirst, slideHandleSecound, slideHandleLast);
+});
+
+$('#slidedown').on("click", function() {
+  $('#slide-example').slideDown(150, slideHandleFirst, slideHandleSecound, slideHandleLast);
+});
+
+$('#slidetoggle').on("click", function() {
+  $('#slide-example').slideToggle(150, slideHandleFirst, slideHandleSecound, slideHandleLast);
 });
